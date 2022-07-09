@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=+, initial-scale=1.0" />
-    <title>All Campgrounds</title>
-  </head>
-  <body>
+<% layout('layouts/boilerplate') %>
     <ul>
       <% for ( const campground of campgrounds) { %>
       <li>
@@ -16,5 +8,3 @@
     </ul>
 
     <a href="/campgrounds/new">Create Campground</a>
-  </body>
-</html>

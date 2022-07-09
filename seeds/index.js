@@ -4,7 +4,7 @@ const {places, descriptors} = require('./seeHelpers');
 
 const Campground = require('../models/campground');
 
-mongoose.connect('mongodb://localhost:27017/Scratch')
+mongoose.connect('mongodb://localhost:27017/yelp-camp')
 .then(()=>{
   console.log('Connected to MongoDB');
 })

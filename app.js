@@ -1,4 +1,5 @@
 const express = require('express');
+const ejsMate = require('ejs-mate');
 const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
@@ -6,7 +7,7 @@ const Campground = require('./models/campground');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/Scratch')
+mongoose.connect('mongodb://localhost:27017/yelp-camp')
 .then(()=>{
   console.log('Connected to MongoDB');
 })
@@ -14,6 +15,7 @@ mongoose.connect('mongodb://localhost:27017/Scratch')
   console.log('Failed to connect to MongoDB');
 })
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -43,7 +45,7 @@ app.get('/campgrounds/new', (req, res) => {
 });
 
 app.get('/campgrounds/:id', async (req, res) => {
-  const {id} =  req.params;
+  const {id} = req.params;
   const campground = await Campground.findById(id);
   res.render('campgrounds/show', {campground});
 });
@@ -51,16 +53,14 @@ app.get('/campgrounds/:id', async (req, res) => {
 app.patch('/campgrounds/:id', async (req, res) => {
   const {id} = req.params;
   const prod = await Campground.findByIdAndUpdate(id, req.body.campground, {runValidators: true, new: true});
-  res.redirect('/camp')
-})
+  res.redirect('/camp');
+});
 
 app.get('/campgrounds/:id/edit', async (req, res) => {
   const { id } = req.params;
   const campground = await Campground.findById(id);
   res.render('campgrounds/edit', {campground});
-})
-
-
+});
 
 
 app.listen(3000, ()=> {
