@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const cities = require('./cities');
-const {places, descriptors} = require('./seeHelpers');
+const {places, descriptors} = require('./seedHelpers');
 
 const Campground = require('../models/campground');
 
@@ -12,7 +12,7 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp')
   console.log('Failed to connect to MongoDB');
 })
 
-const sample = array => array[Math.floor(Math.random() * places.length)];
+const sample = array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
   await Campground.deleteMany({});

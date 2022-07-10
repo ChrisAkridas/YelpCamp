@@ -24,11 +24,6 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 
 
-
-app.get('/', (req, res) => {
-  res.render('home');
-});
-
 app.get('/campgrounds', async (req, res) => {
   const campgrounds = await Campground.find({});
   res.render('campgrounds/index', {campgrounds});
@@ -49,6 +44,12 @@ app.get('/campgrounds/:id', async (req, res) => {
   const campground = await Campground.findById(id);
   res.render('campgrounds/show', {campground});
 });
+
+app.delete('/campgrounds/:id', async (req, res) => {
+  const {id} = req.params;
+  const deletedItem = await Campground.findByIdAndDelete(id);
+  res.redirect('/campgrounds');
+})
 
 app.patch('/campgrounds/:id', async (req, res) => {
   const {id} = req.params;
