@@ -2,7 +2,7 @@
 <div class="row">
 	<h1 class="text-center">Edit Campground</h1>
 	<div class="col-6 offset-3">
-		<form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST">
+		<form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate class="needs-validation">
 			<div class="mb-3">
 				<label class="form-label" for="title">Title</label>
 				<input
@@ -86,7 +86,14 @@
 					cols="30"
 					rows="5"
           placeholder="<%= campground.description %>"
+					required
 				><%=campground.description %></textarea>
+				<div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Something is wrong.
+        </div>
 			</div>
 			<div class="mb-3">
 				<button type="submit" class="btn btn-info">Update campground</button>
