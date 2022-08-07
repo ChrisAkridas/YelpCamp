@@ -15,16 +15,14 @@ const userRoutes = require('./routes/users');
 const User = require('./models/user');
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-});
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
-    console.log("Database connected");
-});
+mongoose.connect('mongodb://localhost:27017/yelp-camp')
+.then(() => {
+  console.log('Connected to MongoDB.');
+})
+.catch((err) => {
+  console.log('Error:', err);
+})
+
 
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
@@ -49,7 +47,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/fakeUser', async ( req, res) => {
-  const user =  new User({email: 'xrhstosakridas@gmail.com', username: 'Chris'});
+  const user =  new User({email: 'xrhstosakridas@gmail.com', username: 'akridas'});
   const newUser = await User.register(user,'newpass');
   res.send(newUser);
 });
@@ -57,6 +55,10 @@ app.get('/fakeUser', async ( req, res) => {
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 app.use('/', userRoutes);
+
+app.get('/', (req, res) => {
+  res.render('home');
+});
 
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404))
