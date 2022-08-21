@@ -41,16 +41,18 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
+  console.log(req.session);
   next();
 });
 
-app.get('/fakeUser', async ( req, res) => {
-  const user =  new User({email: 'xrhstosakridas@gmail.com', username: 'akridas'});
-  const newUser = await User.register(user,'newpass');
-  res.send(newUser);
-});
+// app.get('/fakeUser', async ( req, res) => {
+//   const user =  new User({email: 'xrhstosakridas@gmail.com', username: 'akridas'});
+//   const newUser = await User.register(user,'newpass');
+//   res.send(newUser);
+// });
 
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
